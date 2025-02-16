@@ -35,3 +35,7 @@ func (h *Handler) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	h.s.DeleteProduct()
 }
+
+func (h *Handler) Test(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+}

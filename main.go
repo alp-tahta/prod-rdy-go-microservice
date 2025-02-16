@@ -8,6 +8,7 @@ import (
 	"github.com/alp-tahta/prod-rdy-go-microservice/internal/handler"
 	"github.com/alp-tahta/prod-rdy-go-microservice/internal/repository"
 	"github.com/alp-tahta/prod-rdy-go-microservice/internal/service"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 func main() {
@@ -21,12 +22,16 @@ func main() {
 	// Routes
 	router := http.NewServeMux()
 	router.HandleFunc("GET /health", handler.HealthChecker)
+	router.Handle("/metrics", promhttp.Handler())
 
-	// Routes - Products
+	// Domain Routes - Products
 	router.HandleFunc("POST /product", handler.CreateProduct)
 	router.HandleFunc("GET /product/{id}", handler.GetProduct)
 	router.HandleFunc("PUT /product/{id}", handler.UpdateProduct)
 	router.HandleFunc("DELETE /product/{id}", handler.DeleteProduct)
+
+	// Test Route
+	router.HandleFunc("GET /test", handler.Test)
 
 	s := &http.Server{
 		Addr:           port,
